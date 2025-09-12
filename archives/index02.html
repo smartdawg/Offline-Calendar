@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Offline-First Calendar</title>
+    <link rel="stylesheet" href="calendar.css" />
+  </head>
+  <body>
+    <div id="app-container">
+      <!-- Calendar Header -->
+      <header class="calendar-header">
+        <div class="header-left">
+          <button id="today-btn" class="btn">Today</button>
+          <button id="prev-month-btn" class="btn">&lt;</button>
+          <button id="next-month-btn" class="btn">&gt;</button>
+          <h2 id="month-year-display"></h2>
+        </div>
+        <div class="header-right">
+          <input
+            type="search"
+            id="search-input"
+            class="search-bar"
+            placeholder="Search events..."
+          />
+          <button id="print-btn" class="btn">Print</button>
+          <button id="create-event-btn" class="btn btn-primary">
+            Create Event
+          </button>
+        </div>
+      </header>
+
+      <!-- Calendar Grid -->
+      <main>
+        <h1 id="print-header"></h1>
+        <div id="day-headers">
+          <div class="day-header">Sun</div>
+          <div class="day-header">Mon</div>
+          <div class="day-header">Tue</div>
+          <div class="day-header">Wed</div>
+          <div class="day-header">Thu</div>
+          <div class="day-header">Fri</div>
+          <div class="day-header">Sat</div>
+        </div>
+        <div id="calendar-grid"></div>
+      </main>
+    </div>
+
+    <!-- Event Modal -->
+    <div id="event-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 id="modal-title" class="modal-title">Create Event</h2>
+          <span id="close-event-modal" class="close-button">&times;</span>
+        </div>
+        <form id="event-form">
+          <input type="hidden" id="event-id" />
+          <div class="form-group">
+            <label for="event-title">Title</label>
+            <input type="text" id="event-title" required />
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="start-date">Start Date</label>
+              <input type="date" id="start-date" required />
+            </div>
+            <div class="form-group">
+              <label for="end-date">End Date</label>
+              <input type="date" id="end-date" required />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="start-time">Start Time</label>
+              <input type="time" id="start-time" />
+            </div>
+            <div class="form-group">
+              <label for="end-time">End Time</label>
+              <input type="time" id="end-time" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="event-location">Location</label>
+              <input type="text" id="event-location" />
+            </div>
+            <div class="form-group">
+              <label for="event-color">Color</label>
+              <input type="color" id="event-color" value="#007bff" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="event-description">Description</label>
+            <textarea id="event-description" rows="3"></textarea>
+          </div>
+          <div class="form-group">
+            <label for="recurrence-rule">Recurrence</label>
+            <select id="recurrence-rule">
+              <option value="none">None</option>
+              <option value="daily">Daily</option>
+              <option value="weekly">Weekly</option>
+              <option value="monthly">Monthly</option>
+              <option value="yearly">Yearly</option>
+            </select>
+          </div>
+          <div
+            class="form-group"
+            id="recurrence-until-group"
+            style="display: none"
+          >
+            <label for="recurrence-until">Repeat Until</label>
+            <input type="date" id="recurrence-until" />
+          </div>
+          <div class="modal-footer">
+            <button type="button" id="delete-event-btn" class="btn btn-delete">
+              Delete
+            </button>
+            <button type="submit" class="btn btn-primary">Save Event</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- Search Modal -->
+    <div id="search-modal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2 class="modal-title">Search Results</h2>
+          <span id="close-search-modal" class="close-button">&times;</span>
+        </div>
+        <ul id="search-results-list"></ul>
+      </div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script type="module" src="js/index.js"></script>
+  </body>
+</html>

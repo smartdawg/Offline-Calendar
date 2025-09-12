@@ -1,0 +1,364 @@
+/* CSS Reset and Global Styles */
+:root {
+  --primary-bg: #ffffff;
+  --secondary-bg: #f8f9fa;
+  --header-bg: #e9ecef;
+  --border-color: #dee2e6;
+  --text-color: #212529;
+  --primary-accent: #007bff;
+  --primary-accent-hover: #0056b3;
+  --current-day-bg: #e6f2ff;
+  --current-day-text: #0056b3;
+  --other-month-text: #adb5bd;
+  --danger-color: #dc3545;
+  --danger-hover: #c82333;
+  --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  background-color: var(--secondary-bg);
+  color: var(--text-color);
+  line-height: 1.5;
+}
+
+/* Main Application Layout */
+#app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  max-width: 1400px;
+  margin: 0 auto;
+  background-color: var(--primary-bg);
+  box-shadow: var(--shadow);
+}
+
+/* Header */
+.calendar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  background-color: var(--header-bg);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.header-left,
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+#month-year-display {
+  font-size: 1.75rem;
+  font-weight: 500;
+  min-width: 200px;
+  text-align: center;
+}
+
+.search-bar {
+  padding: 0.5rem;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  width: 250px;
+}
+
+.btn {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  background-color: var(--primary-bg);
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s;
+  font-size: 0.9rem;
+}
+
+.btn-primary {
+  background-color: var(--primary-accent);
+  color: white;
+  border-color: var(--primary-accent);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-accent-hover);
+}
+
+.btn:hover {
+  background-color: var(--border-color);
+}
+
+/* Calendar Grid */
+#day-headers {
+  display: grid; /* <-- THIS IS THE NEWLY ADDED RULE */
+  grid-template-columns: repeat(7, 1fr);
+  border-left: 1px solid var(--border-color);
+}
+
+#calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  flex-grow: 1;
+  border-left: 1px solid var(--border-color);
+}
+
+.day-header {
+  font-weight: 600;
+  text-align: center;
+  padding: 0.5rem 0;
+  background-color: var(--secondary-bg);
+  border-bottom: 1px solid var(--border-color);
+  border-right: 1px solid var(--border-color);
+}
+
+.calendar-day {
+  border-right: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+  padding: 8px;
+  position: relative;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow: hidden;
+  transition: background-color 0.2s;
+}
+
+.calendar-day:hover {
+  background-color: #f1f3f5;
+}
+
+.day-number {
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-bottom: 4px;
+  text-align: right;
+}
+
+.other-month .day-number {
+  color: var(--other-month-text);
+}
+
+.current-day .day-number {
+  background-color: var(--primary-accent);
+  color: white;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  float: right;
+  margin-left: auto;
+}
+
+.events-container {
+  flex-grow: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.event-pill {
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  color: white;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+
+#print-header {
+  display: none;
+}
+
+/* Modal Styles */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
+  animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 25px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 600px;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  animation: slideIn 0.3s;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+
+.modal-title {
+  font-size: 1.5rem;
+  font-weight: 500;
+}
+
+.close-button {
+  color: #aaa;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.close-button:hover,
+.close-button:focus {
+  color: black;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.form-row {
+  display: flex;
+  gap: 1rem;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+.btn-delete {
+  background-color: var(--danger-color);
+  color: white;
+  border-color: var(--danger-color);
+}
+
+.btn-delete:hover {
+  background-color: var(--danger-hover);
+}
+
+#search-results-list {
+  list-style: none;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+#search-results-list li {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+  cursor: pointer;
+}
+
+#search-results-list li:hover {
+  background-color: var(--secondary-bg);
+}
+
+#search-results-list li:last-child {
+  border-bottom: none;
+}
+
+.search-result-title {
+  font-weight: bold;
+}
+.search-result-details {
+  font-size: 0.9em;
+  color: #6c757d;
+}
+
+/* Print Styles */
+@media print {
+  body {
+    background-color: white;
+  }
+
+  #print-header {
+    display: block;
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .calendar-header,
+  .modal {
+    display: none;
+  }
+  #app-container {
+    height: auto;
+    box-shadow: none;
+  }
+  .calendar-day,
+  .day-header,
+  #calendar-grid {
+    border-color: #000;
+  }
+  .event-pill {
+    color: #000;
+    border: 1px solid #000;
+  }
+}

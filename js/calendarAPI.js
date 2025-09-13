@@ -1,71 +1,61 @@
-import { sampleEvents } from "./calendarData.js";
-
-const STORAGE_KEY = "vanillaCalendarEvents";
+let websocket = null;
 
 /**
- * Initializes storage with sample data if it's empty.
+ * Initializes the WebSocket connection and sets up event listeners.
+ * @param {function} onUpdate - The function to call when new event data arrives from the server.
  */
-function initializeStorage() {
-  const events = localStorage.getItem(STORAGE_KEY);
-  if (!events) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(sampleEvents));
-  }
-}
+// THE 'export' KEYWORD WAS MISSING FROM THE LINE BELOW. IT IS NOW ADDED.
+export function initWebSocket(onUpdate) {
+  const WS_URL = "ws://localhost:8001";
+  websocket = new WebSocket(WS_URL);
 
-/**
- * Retrieves all events from localStorage.
- * @returns {Promise<Array>} A promise that resolves with the array of events.
- */
-export function getEvents() {
-  return new Promise((resolve) => {
-    initializeStorage();
-    const eventsJSON = localStorage.getItem(STORAGE_KEY);
-    const events = eventsJSON ? JSON.parse(eventsJSON) : [];
-    resolve(events);
-  });
-}
-
-/**
- * Adds a new event to localStorage.
- * @param {object} eventData The event data to add.
- * @returns {Promise<object>} A promise that resolves with the newly created event.
- */
-export async function addEvent(eventData) {
-  const events = await getEvents();
-  const newEvent = {
-    ...eventData,
-    id: new Date().toISOString() + Math.random().toString(36).substr(2, 9),
+  websocket.onopen = () => {
+    console.log("WebSocket connection established.");
   };
-  events.push(newEvent);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
-  return newEvent;
+
+  websocket.onmessage = (event) => {
+    const data = JSON.parse(event.data);
+    if (data.type === "update" && data.events) {
+      console.log("Received event update from server.");
+      onUpdate(data.events); // Call the callback with the new event list
+    }
+  };
+
+  websocket.onclose = () => {
+    console.log("WebSocket connection closed. Attempting to reconnect...");
+    // Simple reconnect logic
+    setTimeout(() => initWebSocket(onUpdate), 3000);
+  };
+
+  websocket.onerror = (error) => {
+    console.error("WebSocket error:", error);
+  };
 }
 
 /**
- * Updates an existing event in localStorage.
- * @param {object} updatedEventData The updated event data.
- * @returns {Promise<object>} A promise that resolves with the updated event.
+ * Sends a message to the server to perform an action.
+ * @param {string} action - The action to perform (e.g., 'addEvent').
+ * @param {object} payload - The data associated with the action.
  */
-export async function updateEvent(updatedEventData) {
-  let events = await getEvents();
-  const eventIndex = events.findIndex(
-    (event) => event.id === updatedEventData.id
-  );
-  if (eventIndex !== -1) {
-    events[eventIndex] = updatedEventData;
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(events));
-    return updatedEventData;
+function sendMessage(action, payload) {
+  if (websocket && websocket.readyState === WebSocket.OPEN) {
+    websocket.send(JSON.stringify({ action, payload }));
+  } else {
+    console.error("WebSocket is not connected.");
   }
-  throw new Error("Event not found");
 }
 
-/**
- * Deletes an event from localStorage.
- * @param {string} eventId The ID of the event to delete.
- * @returns {Promise<void>}
- */
-export async function deleteEvent(eventId) {
-  let events = await getEvents();
-  const filteredEvents = events.filter((event) => event.id !== eventId);
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(filteredEvents));
+// The API functions now just send messages and don't expect a direct response.
+// The UI update is handled by the `onmessage` listener.
+
+export function addEvent(eventData) {
+  sendMessage("addEvent", eventData);
+}
+
+export function updateEvent(eventData) {
+  sendMessage("updateEvent", eventData);
+}
+
+export function deleteEvent(eventId) {
+  sendMessage("deleteEvent", { id: eventId });
 }

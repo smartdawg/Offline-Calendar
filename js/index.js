@@ -1,5 +1,5 @@
 import {
-  getEvents,
+  initWebSocket,
   addEvent,
   updateEvent,
   deleteEvent,
@@ -30,7 +30,7 @@ const printBtn = document.getElementById("print-btn");
 const searchInput = document.getElementById("search-input");
 
 // --- EVENT LISTENERS ---
-document.addEventListener("DOMContentLoaded", initializeAapp);
+document.addEventListener("DOMContentLoaded", initializeApp);
 prevMonthBtn.addEventListener("click", () => changeMonth(-1));
 nextMonthBtn.addEventListener("click", () => changeMonth(1));
 todayBtn.addEventListener("click", goToToday);
@@ -51,18 +51,15 @@ searchInput.addEventListener("input", (e) => {
 // --- APPLICATION LOGIC ---
 
 /**
- * Initializes the application, fetches events, and renders the calendar.
+ * Initializes the application, starts the WebSocket connection.
  */
-async function initializeAapp() {
-  await fetchEvents();
-  render();
-}
-
-/**
- * Fetches all events from the API and stores them in the state.
- */
-async function fetchEvents() {
-  state.events = await getEvents();
+function initializeApp() {
+  // The new initialization logic:
+  // We pass a function that tells the app what to do when it gets new data.
+  initWebSocket((updatedEvents) => {
+    state.events = updatedEvents;
+    render(); // Re-render the calendar with the new data
+  });
 }
 
 /**
@@ -107,29 +104,27 @@ function performSearch(query) {
 }
 
 /**
- * Handles saving an event (both creating and updating).
+ * Handles saving an event. NO LONGER ASYNC.
  * @param {object} eventData The event data from the form.
  */
-export async function handleSaveEvent(eventData) {
+export function handleSaveEvent(eventData) {
   if (eventData.id) {
-    await updateEvent(eventData);
+    updateEvent(eventData);
   } else {
-    await addEvent(eventData);
+    addEvent(eventData);
   }
-  await fetchEvents();
-  render();
+  // We no longer fetch/render here. The WebSocket 'onmessage' will trigger the render.
   closeEventModal();
 }
 
 /**
- * Handles deleting an event.
+ * Handles deleting an event. NO LONGER ASYNC.
  * @param {string} eventId The ID of the event to delete.
  */
-export async function handleDeleteEvent(eventId) {
+export function handleDeleteEvent(eventId) {
   if (confirm("Are you sure you want to delete this event?")) {
-    await deleteEvent(eventId);
-    await fetchEvents();
-    render();
+    deleteEvent(eventId);
+    // We no longer fetch/render here. The WebSocket 'onmessage' will trigger the render.
     closeEventModal();
   }
 }

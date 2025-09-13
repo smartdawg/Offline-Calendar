@@ -1,7 +1,10 @@
+// js/calendarView.js (FINAL version)
+
 import { getEventOccurrencesForDate } from "./recurrence.js";
 import { openModal } from "./eventModal.js";
 import { handleEditEvent } from "./index.js";
 
+// Get DOM elements once at the top
 const calendarGrid = document.getElementById("calendar-grid");
 const monthYearDisplay = document.getElementById("month-year-display");
 const printHeader = document.getElementById("print-header");
@@ -11,29 +14,21 @@ const printHeader = document.getElementById("print-header");
  * @param {Date} date The date indicating the month and year to render.
  * @param {Array} events The array of all events.
  */
-// In js/calendarView.js
-
-/**
- * Renders the full calendar for a given date and set of events.
- * @param {Date} date The date indicating the month and year to render.
- * @param {Array} events The array of all events.
- */
 export function renderCalendar(date, events) {
+  // Clear the grid before drawing
   calendarGrid.innerHTML = "";
+
   const month = date.getMonth();
   const year = date.getFullYear();
 
-  // --- THIS IS THE CORRECTED SECTION ---
-  // 1. Create the variable that holds the month and year string
+  // Set the header text
   const monthYearText = `${date.toLocaleString("default", {
     month: "long",
   })} ${year}`;
-
-  // 2. Use that variable for both the screen display and the print header
   monthYearDisplay.textContent = monthYearText;
   printHeader.textContent = monthYearText;
-  // --- END OF CORRECTION ---
 
+  // Calculate the exact start and end dates for the grid display
   const firstDayOfMonth = new Date(year, month, 1);
   const lastDayOfMonth = new Date(year, month + 1, 0);
 
@@ -42,11 +37,12 @@ export function renderCalendar(date, events) {
 
   const endDate = new Date(lastDayOfMonth);
   if (endDate.getDay() !== 6) {
+    // Ensure the grid always ends on a Saturday
     endDate.setDate(endDate.getDate() + (6 - endDate.getDay()));
   }
 
+  // Loop through the dates and create a cell for each one
   let currentDate = new Date(startDate);
-
   while (currentDate <= endDate) {
     const dayCell = createDayCell(currentDate, month, events);
     calendarGrid.appendChild(dayCell);
@@ -54,7 +50,6 @@ export function renderCalendar(date, events) {
   }
 }
 
-// ... the rest of the file (createDayCell function) remains exactly the same ...
 /**
  * Creates a single day cell for the calendar grid.
  * @param {Date} date The date for the cell.
@@ -91,10 +86,9 @@ function createDayCell(date, currentMonth, allEvents) {
   const eventsContainer = document.createElement("div");
   eventsContainer.className = "events-container";
 
-  // Get event occurrences for this specific date
   const occurrences = getEventOccurrencesForDate(date, allEvents);
   occurrences
-    .sort((a, b) => a.startTime?.localeCompare(b.startTime || "") || 0)
+    .sort((a, b) => (a.startTime || "").localeCompare(b.startTime || ""))
     .forEach((event) => {
       const eventPill = document.createElement("div");
       eventPill.className = "event-pill";
@@ -102,7 +96,7 @@ function createDayCell(date, currentMonth, allEvents) {
       eventPill.style.backgroundColor = event.color;
       eventPill.dataset.eventId = event.id;
       eventPill.addEventListener("click", (e) => {
-        e.stopPropagation(); // Prevent day cell click
+        e.stopPropagation();
         handleEditEvent(event.id);
       });
       eventsContainer.appendChild(eventPill);

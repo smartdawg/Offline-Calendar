@@ -1,0 +1,31 @@
+[
+    {
+        "id": "evt2",
+        "title": "Project Alpha Deadline",
+        "startDate": "2025-07-20",
+        "endDate": "2025-07-20",
+        "startTime": "",
+        "endTime": "",
+        "location": "",
+        "description": "Final submission for Project Alpha.",
+        "color": "#dc3545",
+        "recurrence": {
+            "rule": "none"
+        }
+    },
+    {
+        "id": "evt_145295",
+        "title": "test",
+        "startDate": "2025-09-10",
+        "endDate": "2025-09-10",
+        "startTime": "10:00",
+        "endTime": "",
+        "location": "",
+        "color": "#007bff",
+        "description": "",
+        "recurrence": {
+            "rule": "none",
+            "until": null
+        }
+    }
+]

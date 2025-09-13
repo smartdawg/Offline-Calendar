@@ -54,8 +54,6 @@ searchInput.addEventListener("input", (e) => {
  * Initializes the application, starts the WebSocket connection.
  */
 function initializeApp() {
-  // The new initialization logic:
-  // We pass a function that tells the app what to do when it gets new data.
   initWebSocket((updatedEvents) => {
     state.events = updatedEvents;
     render(); // Re-render the calendar with the new data
@@ -104,7 +102,7 @@ function performSearch(query) {
 }
 
 /**
- * Handles saving an event. NO LONGER ASYNC.
+ * Handles saving an event.
  * @param {object} eventData The event data from the form.
  */
 export function handleSaveEvent(eventData) {
@@ -113,18 +111,16 @@ export function handleSaveEvent(eventData) {
   } else {
     addEvent(eventData);
   }
-  // We no longer fetch/render here. The WebSocket 'onmessage' will trigger the render.
   closeEventModal();
 }
 
 /**
- * Handles deleting an event. NO LONGER ASYNC.
+ * Handles deleting an event.
  * @param {string} eventId The ID of the event to delete.
  */
 export function handleDeleteEvent(eventId) {
   if (confirm("Are you sure you want to delete this event?")) {
     deleteEvent(eventId);
-    // We no longer fetch/render here. The WebSocket 'onmessage' will trigger the render.
     closeEventModal();
   }
 }

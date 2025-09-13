@@ -1,10 +1,7 @@
-// js/calendarView.js (FINAL version)
-
 import { getEventOccurrencesForDate } from "./recurrence.js";
 import { openModal } from "./eventModal.js";
 import { handleEditEvent } from "./index.js";
 
-// Get DOM elements once at the top
 const calendarGrid = document.getElementById("calendar-grid");
 const monthYearDisplay = document.getElementById("month-year-display");
 const printHeader = document.getElementById("print-header");
@@ -15,20 +12,17 @@ const printHeader = document.getElementById("print-header");
  * @param {Array} events The array of all events.
  */
 export function renderCalendar(date, events) {
-  // Clear the grid before drawing
   calendarGrid.innerHTML = "";
 
   const month = date.getMonth();
   const year = date.getFullYear();
 
-  // Set the header text
   const monthYearText = `${date.toLocaleString("default", {
     month: "long",
   })} ${year}`;
   monthYearDisplay.textContent = monthYearText;
   printHeader.textContent = monthYearText;
 
-  // Calculate the exact start and end dates for the grid display
   const firstDayOfMonth = new Date(year, month, 1);
   const lastDayOfMonth = new Date(year, month + 1, 0);
 
@@ -41,7 +35,6 @@ export function renderCalendar(date, events) {
     endDate.setDate(endDate.getDate() + (6 - endDate.getDay()));
   }
 
-  // Loop through the dates and create a cell for each one
   let currentDate = new Date(startDate);
   while (currentDate <= endDate) {
     const dayCell = createDayCell(currentDate, month, events);

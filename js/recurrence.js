@@ -10,10 +10,10 @@ export function getEventOccurrencesForDate(date, allEvents) {
   checkDate.setHours(0, 0, 0, 0);
 
   for (const event of allEvents) {
-    const eventStart = new Date(event.startDate);
+    const eventStart = new Date(event.startDate + 'T00:00:00');
     eventStart.setHours(0, 0, 0, 0);
 
-    const eventEnd = new Date(event.endDate);
+    const eventEnd = new Date(event.endDate + 'T00:00:00');
     eventEnd.setHours(0, 0, 0, 0);
 
     // Handle multi-day non-recurring events

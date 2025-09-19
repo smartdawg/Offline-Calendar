@@ -53,83 +53,92 @@
           <h2 id="modal-title" class="modal-title">Create Event</h2>
           <span id="close-event-modal" class="close-button">&times;</span>
         </div>
-        <form id="event-form">
-          <input type="hidden" id="event-id" />
-          <input type="hidden" id="event-instance-date">
-          <div class="form-group">
-            <label for="event-title">Title</label>
-            <input type="text" id="event-title" required />
-          </div>
 
-          <div class="form-group">     
-            <div class="task-check">
-                <input type="checkbox" id="cat-task" name="category">
-                <label for="cat-task">Task</label>
-            </div>
-          </div>
-          <!-- Task Completion Checkbox Group (initially hidden) -->
-          <div class="form-group" id="task-completion-group" style="display:none;">
-              <input type="checkbox" id="task-complete-checkbox">
-              <label for="task-complete-checkbox">Mark as complete</label>
-          </div>  
-          <div class="form-row">
+        <!-- In index.html, replace your existing form -->
+        <form id="event-form">
+            <input type="hidden" id="event-id">
+            <input type="hidden" id="event-instance-date">
+
             <div class="form-group">
-              <label for="start-date">Start Date</label>
-              <input type="date" id="start-date" required />
+                <label for="event-title">Title</label>
+                <input type="text" id="event-title" required>
+            </div>
+
+            <div class="form-row"><!-- Simplified Category Checkbox -->
+              <div class="form-group">
+                  <label>Category</label>
+                  <div class="task-check">
+                      <input type="checkbox" id="cat-task" name="category">
+                      <label for="cat-task">Task</label>
+                  </div>
+              </div>
+
+              <!-- Task Completion Checkbox Group (initially hidden) -->
+              <!-- This needs work -->
+              <div class="form-group" id="task-completion-group" style="display:none;">
+                  <input type="checkbox" id="task-complete-checkbox">
+                  <label for="task-complete-checkbox">Mark as complete</label>
+              </div>
+            </div>
+            <!-- Date Fields -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="start-date">Start Date</label>
+                    <input type="date" id="start-date" required>
+                </div>
+                <div class="form-group">
+                    <label for="end-date">End Date</label>
+                    <input type="date" id="end-date" required>
+                </div>
+            </div>
+            
+            <!-- Time Fields (can be hidden) -->
+            <div class="form-row" id="time-inputs-row">
+                <div class="form-group">
+                    <label for="start-time">Start Time</label>
+                    <input type="time" id="start-time">
+                </div>
+                <div class="form-group">
+                    <label for="end-time">End Time</label>
+                    <input type="time" id="end-time">
+                </div>
+            </div>
+
+            <!-- Other Fields -->
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="event-location">Location</label>
+                    <input type="text" id="event-location">
+                </div>
+                <div class="form-group">
+                    <label for="event-color">Color (ie red/green/blue)</label>
+                    <input type="text" id="event-color" value="blue">
+                </div>
             </div>
             <div class="form-group">
-              <label for="end-date">End Date</label>
-              <input type="date" id="end-date" required />
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="start-time">Start Time</label>
-              <input type="time" id="start-time" />
+                <label for="event-description">Description</label>
+                <textarea id="event-description" rows="3"></textarea>
             </div>
             <div class="form-group">
-              <label for="end-time">End Time</label>
-              <input type="time" id="end-time" />
+                <label for="recurrence-rule">Recurrence</label>
+                <select id="recurrence-rule">
+                    <option value="none">None</option>
+                    <option value="daily">Daily</option>
+                    <option value="weekly">Weekly</option>
+                    <option value="monthly">Monthly</option>
+                    <option value="yearly">Yearly</option>
+                </select>
             </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group">
-              <label for="event-location">Location</label>
-              <input type="text" id="event-location" />
+            <div class="form-group" id="recurrence-until-group" style="display:none;">
+                <label for="recurrence-until">Repeat Until</label>
+                <input type="date" id="recurrence-until">
             </div>
-            <div class="form-group">
-              <label for="event-color">Color</label>
-              <input type="color" id="event-color" value="#007bff" />
+
+            <!-- Footer Buttons -->
+            <div class="modal-footer">
+                <button type="button" id="delete-event-btn" class="btn btn-delete">Delete</button>
+                <button type="submit" class="btn btn-primary">Save Event</button>
             </div>
-          </div>
-          <div class="form-group">
-            <label for="event-description">Description</label>
-            <textarea id="event-description" rows="3"></textarea>
-          </div>
-          <div class="form-group">
-            <label for="recurrence-rule">Recurrence</label>
-            <select id="recurrence-rule">
-              <option value="none">None</option>
-              <option value="daily">Daily</option>
-              <option value="weekly">Weekly</option>
-              <option value="monthly">Monthly</option>
-              <option value="yearly">Yearly</option>
-            </select>
-          </div>
-          <div
-            class="form-group"
-            id="recurrence-until-group"
-            style="display: none"
-          >
-            <label for="recurrence-until">Repeat Until</label>
-            <input type="date" id="recurrence-until" />
-          </div>
-          <div class="modal-footer">
-            <button type="button" id="delete-event-btn" class="btn btn-delete">
-              Delete
-            </button>
-            <button type="submit" class="btn btn-primary">Save Event</button>
-          </div>
         </form>
       </div>
     </div>

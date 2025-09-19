@@ -131,7 +131,7 @@ body {
   gap: 4px;
   overflow: hidden;
   transition: background-color 0.2s;
-  min-height: 140px;
+  min-height: 160px;
 }
 
 .calendar-day:hover {
@@ -168,6 +168,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 4px;
+  pointer-events: none;
 }
 
 .event-pill {
@@ -179,6 +180,7 @@ body {
   overflow: hidden;
   text-overflow: ellipsis;
   cursor: pointer;
+  pointer-events: auto;
 }
 
 #print-header {
@@ -364,12 +366,14 @@ body {
   }
 }
   /* --- Task Checkbox Styles --- */
+  .task-completion-group,
   .task-check {
     display: flex;
     align-items: center; /* This is the key property */
     gap: 10px;
+    height: 38px;
   }
-
+  .task-completion-group,
   .task-check input[type="checkbox"] {
       width: 18px;
       height: 18px;

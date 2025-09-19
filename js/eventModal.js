@@ -94,7 +94,7 @@ export function populateEventForm(event) {
   startTimeField.value = event.startTime || "";
   endTimeField.value = event.endTime || "";
   locationField.value = event.location || "";
-  colorField.value = event.color || "#007bff";
+  colorField.value = event.color || "#blue";
   descriptionField.value = event.description || "";
 
   if (event.recurrence) {

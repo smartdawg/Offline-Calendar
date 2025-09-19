@@ -55,10 +55,23 @@
         </div>
         <form id="event-form">
           <input type="hidden" id="event-id" />
+          <input type="hidden" id="event-instance-date">
           <div class="form-group">
             <label for="event-title">Title</label>
             <input type="text" id="event-title" required />
           </div>
+
+          <div class="form-group">     
+            <div class="task-check">
+                <input type="checkbox" id="cat-task" name="category">
+                <label for="cat-task">Task</label>
+            </div>
+          </div>
+          <!-- Task Completion Checkbox Group (initially hidden) -->
+          <div class="form-group" id="task-completion-group" style="display:none;">
+              <input type="checkbox" id="task-complete-checkbox">
+              <label for="task-complete-checkbox">Mark as complete</label>
+          </div>  
           <div class="form-row">
             <div class="form-group">
               <label for="start-date">Start Date</label>

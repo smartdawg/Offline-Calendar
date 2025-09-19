@@ -42,5 +42,81 @@
             "rule": "none",
             "until": null
         }
+    },
+    {
+        "id": "evt_682862",
+        "title": "NCSU vs Duke",
+        "startDate": "2025-09-20",
+        "endDate": "2025-09-20",
+        "startTime": "15:00",
+        "endTime": "",
+        "location": "tv",
+        "color": "#007bff",
+        "description": "ESPN2",
+        "recurrence": {
+            "rule": "none",
+            "until": null
+        }
+    },
+    {
+        "id": "evt_682951",
+        "title": "test",
+        "startDate": "2025-09-29",
+        "endDate": "2025-09-29",
+        "startTime": "",
+        "endTime": "",
+        "location": "",
+        "color": "#007bff",
+        "description": "",
+        "recurrence": {
+            "rule": "none",
+            "until": null
+        }
+    },
+    {
+        "id": "evt1",
+        "title": "Team Sync",
+        "startDate": "2025-07-15",
+        "endDate": "2025-07-15",
+        "startTime": "10:00",
+        "endTime": "11:00",
+        "location": "Conference Room A",
+        "description": "Weekly team synchronization meeting.",
+        "color": "#007bff",
+        "recurrence": {
+            "rule": "weekly",
+            "until": "2025-12-31"
+        },
+        "category": "time"
+    },
+    {
+        "id": "evt2",
+        "title": "Project Alpha Deadline",
+        "startDate": "2025-07-20",
+        "endDate": "2025-07-20",
+        "startTime": "",
+        "endTime": "",
+        "location": "",
+        "description": "Final submission for Project Alpha.",
+        "color": "#6c757d",
+        "recurrence": {
+            "rule": "none"
+        },
+        "category": "allday"
+    },
+    {
+        "id": "evt3",
+        "title": "Review PR #101",
+        "startDate": "2025-07-21",
+        "endDate": "2025-07-21",
+        "startTime": "",
+        "endTime": "",
+        "description": "Review the pull request for the new feature.",
+        "color": "#17a2b8",
+        "recurrence": {
+            "rule": "none"
+        },
+        "category": "task",
+        "isComplete": false
     }
 ]
